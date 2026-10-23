@@ -351,10 +351,10 @@ tr:last-child td{border-bottom:0}
 .hide{display:none!important}
 
 /* ===== AI Academy additions ===== */
-:root{--c-ml:#0E8F7E;--c-dl:#D9480F;--c-gen:#5B3FD9;--c-ag:#C2255C;}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-ml:#38D9C0;--c-dl:#FF8A50;--c-gen:#9E8CFF;--c-ag:#F06595;--rail:#0E0B24;--rail-2:#231C52;--bg:#0F0E1A;--card:#181628;--line:#2C2944;--line-2:#221F38;--blue:#9E8CFF;--blue-2:#241E4A;--blue-ink:#C2B8FF;--ink:#ECEAF8;--ink-2:#B9B6D3;--ink-3:#8C89A8}}
-:root[data-theme="dark"]{--c-ml:#38D9C0;--c-dl:#FF8A50;--c-gen:#9E8CFF;--c-ag:#F06595;--rail:#0E0B24;--rail-2:#231C52;--bg:#0F0E1A;--card:#181628;--line:#2C2944;--line-2:#221F38;--blue:#9E8CFF;--blue-2:#241E4A;--blue-ink:#C2B8FF;--ink:#ECEAF8;--ink-2:#B9B6D3;--ink-3:#8C89A8}
-.cc-ml{--cc:var(--c-ml)}.cc-dl{--cc:var(--c-dl)}.cc-gen{--cc:var(--c-gen)}.cc-ag{--cc:var(--c-ag)}
+:root{--c-fd:#B7791F;--c-ml:#0E8F7E;--c-dl:#D9480F;--c-gen:#5B3FD9;--c-ag:#C2255C;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-fd:#F6C259;--c-ml:#38D9C0;--c-dl:#FF8A50;--c-gen:#9E8CFF;--c-ag:#F06595;--rail:#0E0B24;--rail-2:#231C52;--bg:#0F0E1A;--card:#181628;--line:#2C2944;--line-2:#221F38;--blue:#9E8CFF;--blue-2:#241E4A;--blue-ink:#C2B8FF;--ink:#ECEAF8;--ink-2:#B9B6D3;--ink-3:#8C89A8}}
+:root[data-theme="dark"]{--c-fd:#F6C259;--c-ml:#38D9C0;--c-dl:#FF8A50;--c-gen:#9E8CFF;--c-ag:#F06595;--rail:#0E0B24;--rail-2:#231C52;--bg:#0F0E1A;--card:#181628;--line:#2C2944;--line-2:#221F38;--blue:#9E8CFF;--blue-2:#241E4A;--blue-ink:#C2B8FF;--ink:#ECEAF8;--ink-2:#B9B6D3;--ink-3:#8C89A8}
+.cc-fd{--cc:var(--c-fd)}.cc-ml{--cc:var(--c-ml)}.cc-dl{--cc:var(--c-dl)}.cc-gen{--cc:var(--c-gen)}.cc-ag{--cc:var(--c-ag)}
 .heroai{position:relative;overflow:hidden;border-radius:18px;padding:30px 26px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#5B3FD9 0%,#2B1D73 45%,#120C35 100%);box-shadow:var(--shadow);margin-bottom:22px}
 .heroai::after{content:"";position:absolute;inset:0;background:radial-gradient(40% 60% at 85% 20%,rgba(56,217,192,.45),transparent 70%),radial-gradient(35% 50% at 70% 95%,rgba(240,101,149,.35),transparent 70%);pointer-events:none}
 .heroai > *{position:relative;z-index:1}
@@ -413,6 +413,20 @@ tr:last-child td{border-bottom:0}
 .roadmap{display:grid;gap:10px}
 .rm{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start}
 .rm .n{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:var(--cc,var(--blue))}
+
+.pycell{border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#141226;margin:4px 0}
+.pycell .ch{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#1E1B38;color:#B8B2E6;font-size:12px;font-weight:700;gap:8px}
+.pycell .ch button{border:1px solid #3A3566;background:none;color:#D9D4FF;border-radius:6px;padding:4px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
+.pycell .ch button.run{background:#38D9C0;border-color:#38D9C0;color:#0E0B24}
+.pycell .ch button[disabled]{opacity:.5}
+.pycell textarea{display:block;width:100%;border:0;outline:0;resize:vertical;background:#141226;color:#E8E6FF;font:13px/1.55 var(--mono);padding:12px 14px;min-height:60px;tab-size:4;white-space:pre;overflow-x:auto}
+.pyout{background:var(--card);border-top:1px solid var(--line);padding:10px 14px;max-height:460px;overflow:auto}
+.pyout pre{margin:0;white-space:pre;font:12.5px/1.5 var(--mono);color:var(--ink);overflow-x:auto}
+.pyout pre.err{color:var(--red);white-space:pre-wrap;margin-top:6px}
+.pyout img{max-width:100%;display:block;margin-top:8px;border-radius:6px;background:#fff}
+.pyex{padding:14px 16px;border-left:4px solid var(--c-fd,var(--blue))}
+.exok{margin-top:8px;font-weight:700;color:var(--green)}
+.exbad{margin-top:8px;font-weight:700;color:var(--red)}
 
 </style>
 </head>
@@ -1259,6 +1273,223 @@ window.GUIDE = {
 
 </script>
 <script>
+/* Foundations: runnable cells ["py", code] and graded exercises ["pyex", title, task, starter, check, hint, solution] */
+window.COURSES = window.COURSES || [];
+window.COURSES.unshift({
+  id: "fd", icon: "🧮", title: "Foundations", short: "Python, NumPy, pandas, SQL, statistics, probability and the maths behind ML, all runnable inside the course.",
+  source: ["Kaggle Learn (Python, pandas, SQL)", "https://www.kaggle.com/learn"],
+  modules: [
+  { id: "fd1", title: "Python essentials", short: "Variables, collections, loops, functions and reading errors",
+    outcomes: ["Write and run small Python programs.", "Use lists, dictionaries and loops on real data.", "Write functions and fix errors from the traceback."],
+    lessons: [
+    { id: "fd1-basics", title: "Values, variables and f-strings", min: 12, blocks: [
+      ["layer", "Top view"],
+      ["top", "A program is a list of instructions. Variables are labelled boxes holding values; Python runs your lines from top to bottom."],
+      ["runinfo"],
+      ["py", "price = 2150          # integer: rupees per quintal\nquantity = 3.5        # float: quintals\nmandi = \"Lasalgaon\"   # string: text\nis_open = True        # boolean\n\ntotal = price * quantity\nprint(type(price), type(quantity), type(mandi), type(is_open))\nprint(f\"{quantity} q of onions at {mandi} costs Rs {total:,.0f}\")"],
+      ["table", ["Type", "Example", "Use"], [["int", "2150", "Whole numbers"], ["float", "3.5", "Decimals"], ["str", "\"Lasalgaon\"", "Text"], ["bool", "True / False", "Yes/no"]]],
+      ["tip", "Change and re-run", "Edit any number in the cell and press Run again. Breaking things on purpose is the fastest way to learn."],
+      ["pyex", "GST calculator", "A laptop costs Rs 54,000 before tax. GST is 18%. Store the GST amount in `gst` and the final price in `final`.", "base = 54000\nrate = 0.18\ngst = 0      # fix me\nfinal = 0    # fix me\nprint(gst, final)", "assert abs(gst - 9720) < 0.01, 'gst should be 18% of 54000'\nassert abs(final - 63720) < 0.01, 'final = base + gst'", "Multiply the base by the rate for GST, then add it to the base.", "gst = base * rate\nfinal = base + gst"]
+    ]},
+    { id: "fd1-collections", title: "Lists, dictionaries and loops", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "A list keeps items in order; a dictionary looks values up by name. Loops repeat work for every item."],
+      ["py", "prices = [2150, 2380, 2410, 1990, 2240]          # a week of onion prices\ncity_pin = {\"Pune\": 411001, \"Mumbai\": 400001}   # dictionary: key -> value\n\nprint(\"First day:\", prices[0], \"| last day:\", prices[-1])\nprint(\"Pune PIN:\", city_pin[\"Pune\"])\n\ntotal = 0\nfor p in prices:\n    total += p\nprint(\"Average:\", total / len(prices))\n\n# list comprehension: build a new list in one line\nhigh_days = [p for p in prices if p > 2200]\nprint(\"Days above 2200:\", high_days)"],
+      ["table", ["Tool", "Syntax", "Example"], [["Index", "list[i]", "prices[0] is the first item; prices[-1] the last"], ["Slice", "list[a:b]", "prices[1:3] gives items 1 and 2"], ["Append", "list.append(x)", "prices.append(2300)"], ["Lookup", "dict[key]", "city_pin[\"Pune\"]"], ["Loop", "for x in items:", "Indented lines repeat"], ["Comprehension", "[f(x) for x in items if cond]", "Filter and transform"]]],
+      ["pyex", "Busiest mandi", "`arrivals` maps mandi → tonnes arrived today. Find the mandi with the highest arrivals and store its name in `busiest`.", "arrivals = {\"Lasalgaon\": 1850, \"Pimpalgaon\": 1420, \"Nashik\": 960, \"Pune\": 1210}\nbusiest = \"\"\n# write a loop (or use max with key=)\nprint(busiest)", "assert busiest == 'Lasalgaon', 'Lasalgaon has the most arrivals'", "Keep track of the best value so far in a loop, or use max(arrivals, key=arrivals.get).", "busiest = max(arrivals, key=arrivals.get)"]
+    ]},
+    { id: "fd1-functions", title: "Functions, conditions and errors", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "A function packages steps under a name so you can reuse them. Conditions (if / elif / else) choose between paths. Errors tell you exactly where things went wrong; read the last line first."],
+      ["py", "def emi(principal, annual_rate, months):\n    \"\"\"Monthly instalment for a loan (reducing balance).\"\"\"\n    r = annual_rate / 12 / 100\n    return principal * r * (1 + r) ** months / ((1 + r) ** months - 1)\n\ndef risk_band(score):\n    if score >= 750:\n        return \"low\"\n    elif score >= 650:\n        return \"medium\"\n    else:\n        return \"high\"\n\nprint(f\"EMI for Rs 5 lakh, 10%, 36 months: Rs {emi(500000, 10, 36):,.0f}\")\nfor s in [790, 700, 610]:\n    print(s, \"->\", risk_band(s))"],
+      ["py", "# Run this: it fails on purpose. Read the LAST line of the error.\nscores = {\"Asha\": 82, \"Rohan\": 74}\nprint(scores[\"Sneha\"])"],
+      ["table", ["Error", "Usually means"], [["NameError", "A variable name is misspelt or not defined yet"], ["KeyError", "That key isn't in the dictionary"], ["IndexError", "The list doesn't have that position"], ["TypeError", "Wrong type, e.g. adding text to a number"], ["IndentationError", "Spaces at the start of lines don't line up"]]],
+      ["pyex", "Grade the marks", "Write `grade(marks)` returning \"A\" for 85 and above, \"B\" for 70–84, \"C\" for 50–69 and \"Fail\" below 50.", "def grade(marks):\n    # your code here\n    return \"\"\n\nprint(grade(91), grade(72), grade(55), grade(30))", "assert grade(85) == 'A' and grade(99) == 'A', '85+ is A'\nassert grade(70) == 'B' and grade(84) == 'B', '70-84 is B'\nassert grade(50) == 'C' and grade(69) == 'C', '50-69 is C'\nassert grade(49) == 'Fail', 'below 50 fails'", "Check the highest band first with if, then elif for the next ones, else for Fail.", "def grade(marks):\n    if marks >= 85:\n        return \"A\"\n    elif marks >= 70:\n        return \"B\"\n    elif marks >= 50:\n        return \"C\"\n    return \"Fail\""]
+    ]}
+  ]},
+  { id: "fd2", title: "NumPy and pandas", short: "Fast arrays and data tables: the daily tools of every data job",
+    outcomes: ["Compute on whole arrays at once with NumPy.", "Select, filter and create columns in pandas.", "Group, merge and clean tables."],
+    lessons: [
+    { id: "fd2-numpy", title: "NumPy: maths on whole arrays", min: 12, blocks: [
+      ["layer", "Top view"],
+      ["top", "NumPy arrays let you do one operation on millions of numbers at once, without loops. Every ML library is built on them."],
+      ["py", "import numpy as np\nsqft = np.array([450, 600, 750, 900, 1100])\nrent = np.array([12, 15, 19, 22, 27])          # Rs thousand\n\nprint(\"Rent per sq ft (Rs):\", (rent * 1000 / sqft).round(1))   # element-wise, no loop\nprint(\"Mean rent:\", rent.mean(), \"| std:\", rent.std().round(2))\nprint(\"Flats over 20k:\", sqft[rent > 20])                      # boolean mask\n\nm = np.array([[1, 2], [3, 4]])\nprint(\"Shape:\", m.shape, \"| column means:\", m.mean(axis=0))"],
+      ["list", ["**Vectorisation**: `a * 2` doubles every element; far faster than a Python loop.", "**Boolean masks**: `a[a > 20]` keeps elements meeting a condition.", "**Shape and axis**: `axis=0` works down columns, `axis=1` across rows.", "**Broadcasting**: a single number or row stretches to match the array."]],
+      ["pyex", "Standardise the scores", "Standardise `x` into `z` so it has mean 0 and standard deviation 1: subtract the mean, divide by the standard deviation. Models train better on standardised features.", "import numpy as np\nx = np.array([52., 61., 70., 74., 88., 95.])\nz = x  # fix me\nprint(z.round(2))", "import numpy as np\nassert abs(z.mean()) < 1e-9, 'mean of z should be 0'\nassert abs(z.std() - 1) < 1e-9, 'std of z should be 1'", "z = (x - x.mean()) / x.std()", "z = (x - x.mean()) / x.std()"]
+    ]},
+    { id: "fd2-pandas", title: "pandas: select, filter, add columns", min: 15, blocks: [
+      ["layer", "Top view"],
+      ["top", "A pandas DataFrame is a spreadsheet you control with code: pick columns, filter rows, sort and calculate, all reproducibly."],
+      ["py", "import pandas as pd\ndf = pd.DataFrame({\n    \"city\":  [\"Pune\", \"Mumbai\", \"Pune\", \"Bengaluru\", \"Chennai\", \"Mumbai\"],\n    \"sqft\":  [650, 520, 900, 1100, 780, 840],\n    \"rent\":  [16, 28, 22, 34, 19, 41],          # Rs thousand\n    \"metro\": [True, True, False, True, False, True]})\n\nprint(df.head(), \"\\n\")\nprint(df[[\"city\", \"rent\"]].sort_values(\"rent\", ascending=False).head(3), \"\\n\")\nprint(df[(df.city == \"Mumbai\") & (df.metro)], \"\\n\")\ndf[\"rent_per_sqft\"] = (df.rent * 1000 / df.sqft).round(1)\nprint(df.describe().round(1))"],
+      ["table", ["Task", "pandas"], [["Pick columns", "df[[\"a\", \"b\"]]"], ["Filter rows", "df[df.rent > 20]  (combine with & and |, in brackets)"], ["Sort", "df.sort_values(\"rent\", ascending=False)"], ["New column", "df[\"x\"] = df.a / df.b"], ["Summary", "df.describe(), df.info(), df.value_counts()"], ["Read a file", "pd.read_csv(\"file.csv\")"]]],
+      ["pyex", "Affordable flats near the metro", "From `df` keep rows where `metro` is True and `rent` is at most 30, sorted by rent (cheapest first). Store the result in `picks`.", "import pandas as pd\ndf = pd.DataFrame({\"city\": [\"Pune\",\"Mumbai\",\"Pune\",\"Bengaluru\",\"Chennai\",\"Mumbai\"], \"rent\": [16,28,22,34,19,41], \"metro\": [True,True,False,True,False,True]})\npicks = df  # fix me\nprint(picks)", "assert list(picks.rent) == [16, 28], 'expected rents 16 and 28 in that order'", "Filter with (df.metro) & (df.rent <= 30), then .sort_values('rent').", "picks = df[(df.metro) & (df.rent <= 30)].sort_values(\"rent\")"]
+    ]},
+    { id: "fd2-group", title: "Group, merge and clean", min: 16, blocks: [
+      ["layer", "Top view"],
+      ["top", "Most real questions are \"per something\": average price per state, sales per month. groupby answers them; merge joins tables; cleaning makes them trustworthy."],
+      ["py", "import pandas as pd, numpy as np\nsales = pd.DataFrame({\n    \"date\": pd.to_datetime([\"2026-09-01\",\"2026-09-01\",\"2026-09-02\",\"2026-09-02\",\"2026-09-03\",\"2026-09-03\"]),\n    \"store\": [\"S1\",\"S2\",\"S1\",\"S2\",\"S1\",\"S2\"],\n    \"amount\": [5200, 3100, np.nan, 2900, 6100, 3300]})\nstores = pd.DataFrame({\"store\": [\"S1\",\"S2\"], \"city\": [\"Pune\",\"Nashik\"]})\n\nprint(\"Missing per column:\\n\", sales.isna().sum(), \"\\n\")\nsales[\"amount\"] = sales[\"amount\"].fillna(sales.groupby(\"store\")[\"amount\"].transform(\"median\"))\nfull = sales.merge(stores, on=\"store\", how=\"left\")\nprint(full.groupby(\"city\")[\"amount\"].agg([\"sum\", \"mean\", \"count\"]), \"\\n\")\nprint(full.assign(day=full.date.dt.day_name()).pivot_table(index=\"day\", columns=\"city\", values=\"amount\", aggfunc=\"sum\"))"],
+      ["table", ["Task", "pandas"], [["Per-group summary", "df.groupby(\"g\")[\"x\"].agg([\"mean\", \"sum\"])"], ["Join tables", "a.merge(b, on=\"key\", how=\"left\")"], ["Missing values", "isna().sum(), fillna(), dropna()"], ["Dates", "pd.to_datetime, .dt.month, .dt.day_name()"], ["Pivot", "pivot_table(index, columns, values, aggfunc)"]]],
+      ["pyex", "Average price per state", "Compute the mean `price` per `state` as a Series called `avg` (index = state).", "import pandas as pd\nd = pd.DataFrame({\"state\": [\"MH\",\"MH\",\"KA\",\"KA\",\"TN\"], \"price\": [2100, 2300, 1800, 2000, 2500]})\navg = None  # fix me\nprint(avg)", "assert avg['MH'] == 2200 and avg['KA'] == 1900 and avg['TN'] == 2500, 'check the group means'", "d.groupby('state')['price'].mean()", "avg = d.groupby(\"state\")[\"price\"].mean()"]
+    ]}
+  ]},
+  { id: "fd3", title: "SQL for data", short: "Ask questions of databases: the most requested data skill",
+    outcomes: ["Write SELECT queries with filters and sorting.", "Aggregate with GROUP BY and HAVING.", "Join tables and use a window function."],
+    lessons: [
+    { id: "fd3-select", title: "SELECT, WHERE, ORDER BY", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "SQL asks a database for exactly the rows and columns you need. Nearly every company stores data in SQL databases, so nearly every data job tests it."],
+      ["p", "These cells run a real SQLite database inside your browser. The helper `q()` runs a query and shows the result as a table."],
+      ["py", "import sqlite3, pandas as pd\ncon = sqlite3.connect(\":memory:\")\npd.DataFrame({\n  \"order_id\": range(1, 9),\n  \"customer\": [\"Asha\",\"Rohan\",\"Asha\",\"Fatima\",\"Sneha\",\"Rohan\",\"Karan\",\"Asha\"],\n  \"city\": [\"Pune\",\"Chennai\",\"Pune\",\"Mumbai\",\"Bengaluru\",\"Chennai\",\"Mumbai\",\"Pune\"],\n  \"amount\": [1250, 640, 2300, 980, 4100, 720, 1500, 560],\n  \"paid_by\": [\"UPI\",\"Card\",\"UPI\",\"UPI\",\"Card\",\"UPI\",\"COD\",\"UPI\"]}).to_sql(\"orders\", con, index=False)\ndef q(sql): return pd.read_sql_query(sql, con)\n\nprint(q(\"\"\"\nSELECT customer, city, amount\nFROM orders\nWHERE paid_by = 'UPI' AND amount > 900\nORDER BY amount DESC\n\"\"\"))"],
+      ["table", ["Clause", "Does", "Order it runs"], [["FROM", "Which table", "1"], ["WHERE", "Filter rows", "2"], ["GROUP BY", "Make groups", "3"], ["HAVING", "Filter groups", "4"], ["SELECT", "Pick / compute columns", "5"], ["ORDER BY", "Sort", "6"], ["LIMIT", "Keep first n", "7"]]],
+      ["pyex", "Top Pune orders", "Using the same `orders` table, write a query in `sql` returning the `order_id` and `amount` of Pune orders, largest first. (Run the cell above first.)", "sql = \"\"\"\nSELECT ...\n\"\"\"\nres = q(sql)\nprint(res)", "assert list(res.columns) == ['order_id', 'amount'], 'select order_id and amount'\nassert list(res.amount) == [2300, 1250, 560], 'Pune orders, largest first'", "SELECT order_id, amount FROM orders WHERE city = 'Pune' ORDER BY amount DESC", "sql = \"SELECT order_id, amount FROM orders WHERE city = 'Pune' ORDER BY amount DESC\"\nres = q(sql)"]
+    ]},
+    { id: "fd3-group", title: "GROUP BY, JOIN and window functions", min: 16, blocks: [
+      ["layer", "Top view"],
+      ["top", "GROUP BY summarises per group, JOIN combines tables on a shared key, and window functions rank or total rows without collapsing them."],
+      ["py", "import sqlite3, pandas as pd\ncon = sqlite3.connect(\":memory:\")\npd.DataFrame({\"order_id\": range(1, 9), \"customer\": [\"Asha\",\"Rohan\",\"Asha\",\"Fatima\",\"Sneha\",\"Rohan\",\"Karan\",\"Asha\"],\n  \"amount\": [1250, 640, 2300, 980, 4100, 720, 1500, 560]}).to_sql(\"orders\", con, index=False)\npd.DataFrame({\"customer\": [\"Asha\",\"Rohan\",\"Fatima\",\"Sneha\",\"Karan\"],\n  \"segment\": [\"Gold\",\"Silver\",\"Silver\",\"Gold\",\"New\"]}).to_sql(\"customers\", con, index=False)\ndef q(sql): return pd.read_sql_query(sql, con)\n\nprint(q(\"\"\"\nSELECT c.segment, COUNT(*) AS orders, SUM(o.amount) AS revenue\nFROM orders o JOIN customers c ON o.customer = c.customer\nGROUP BY c.segment\nHAVING COUNT(*) >= 2\nORDER BY revenue DESC\"\"\"), \"\\n\")\n\nprint(q(\"\"\"\nSELECT customer, amount,\n       RANK() OVER (PARTITION BY customer ORDER BY amount DESC) AS rank_in_customer,\n       SUM(amount) OVER (PARTITION BY customer) AS customer_total\nFROM orders ORDER BY customer, rank_in_customer\"\"\"))"],
+      ["table", ["Join", "Keeps"], [["INNER JOIN", "Only rows matching in both tables"], ["LEFT JOIN", "All rows from the left table, matches where they exist (NULL otherwise)"]]],
+      ["watch", "WHERE vs HAVING", "WHERE filters rows before grouping; HAVING filters groups after. \"Customers with more than 2 orders\" needs HAVING COUNT(*) > 2."],
+      ["pyex", "Spend per customer", "Write `sql` returning each `customer` with `total` spend, only customers whose total is above 2,000, highest first. (Run the cell above first.)", "sql = \"\"\"\nSELECT ...\n\"\"\"\nres = q(sql)\nprint(res)", "assert list(res.customer) == ['Asha', 'Sneha'], 'expected Asha (4110) then Sneha (4100)'", "GROUP BY customer, HAVING SUM(amount) > 2000, ORDER BY total DESC.", "sql = \"SELECT customer, SUM(amount) AS total FROM orders GROUP BY customer HAVING SUM(amount) > 2000 ORDER BY total DESC\"\nres = q(sql)"]
+    ]}
+  ]},
+  { id: "fd4", title: "Statistics and probability", short: "Describing data, distributions, Bayes and testing ideas",
+    outcomes: ["Summarise data with the right centre and spread.", "Explain distributions and the central limit theorem.", "Use Bayes' rule and read an A/B test."],
+    lessons: [
+    { id: "fd4-describe", title: "Centre, spread and outliers", min: 12, blocks: [
+      ["layer", "Top view"],
+      ["top", "The mean is pulled by extreme values; the median is not. Always report spread too: two cities with the same average rent can feel completely different."],
+      ["py", "import numpy as np\n# Monthly salaries in a small company (Rs thousand): one founder skews everything\ns = np.array([28, 30, 32, 35, 35, 38, 42, 45, 50, 450])\nprint(\"Mean:\", s.mean(), \"| Median:\", np.median(s))\nq1, q3 = np.percentile(s, [25, 75]); iqr = q3 - q1\nprint(\"Std dev:\", s.std().round(1), \"| IQR:\", iqr)\nprint(\"Outliers (beyond 1.5 x IQR):\", s[(s < q1 - 1.5*iqr) | (s > q3 + 1.5*iqr)])"],
+      ["table", ["Measure", "Use when"], [["Mean", "Symmetric data without big outliers"], ["Median", "Skewed data: salaries, house prices, delivery times"], ["Standard deviation", "Typical distance from the mean"], ["IQR (Q3 − Q1)", "Spread that ignores extremes; basis of the outlier rule"]]],
+      ["quiz", "A news report says the \"average\" salary in a startup is Rs 1.2 lakh, but most employees earn Rs 40–60k. What's happening?", ["Calculation error", "A few very high salaries pull the mean up; the median is more honest here", "The median is always higher", "Salaries can't be averaged"], 1, "Skewed data: report the median."]
+    ]},
+    { id: "fd4-dist", title: "Distributions and the central limit theorem", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "A distribution shows how often each value happens. The central limit theorem says averages of samples look bell-shaped even when the original data doesn't, which is why so much of statistics works."],
+      ["widget", "clt"],
+      ["list", ["**Normal (bell curve)**: heights, measurement errors.", "**Right-skewed**: incomes, delivery times, file sizes.", "**Uniform**: a fair die.", "**Binomial**: number of successes in n tries (conversions out of 100 visitors)."]],
+      ["py", "import numpy as np\nrng = np.random.default_rng(0)\ndelivery = rng.exponential(scale=30, size=100_000)          # skewed delivery times, minutes\nmeans = rng.exponential(scale=30, size=(5_000, 40)).mean(axis=1)  # 5,000 samples of 40 orders\nprint(\"Raw data   mean %.1f  std %.1f\" % (delivery.mean(), delivery.std()))\nprint(\"Sample means mean %.1f  std %.2f  (theory: %.2f)\" % (means.mean(), means.std(), 30/np.sqrt(40)))"],
+      ["tip", "Why ML people care", "The standard error (σ/√n) tells you how precise an average is. It is the basis of confidence intervals, A/B tests and of judging whether one model is really better than another."]
+    ]},
+    { id: "fd4-prob", title: "Probability and Bayes' rule", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "Bayes' rule updates a belief with evidence. Its big lesson: when something is rare, even an accurate test produces many false alarms."],
+      ["widget", "bayes"],
+      ["p", "**P(disease | positive) = P(positive | disease) × P(disease) ÷ P(positive)**. Thinking in counts of people (as the simulator does) is the easiest way to get it right."],
+      ["india", "Fraud alerts", "If 1 in 1,000 UPI payments is fraud and a detector catches 99% of fraud with a 2% false-alarm rate, most alerts are still false alarms. That's why fraud teams review alerts instead of blocking accounts automatically."],
+      ["quiz", "A disease affects 1% of people. A test is 95% sensitive with a 5% false-positive rate. Roughly what share of positive results are real?", ["95%", "About 16%", "50%", "1%"], 1, "Out of 10,000 people: 95 true positives and about 495 false positives, so 95 ÷ 590 ≈ 16%."]
+    ]},
+    { id: "fd4-test", title: "Hypothesis tests, A/B tests and causation", min: 15, blocks: [
+      ["layer", "Top view"],
+      ["top", "A test asks: could this difference just be luck? The p-value is how surprising the data would be if there were truly no difference. Small p means luck alone is unlikely, not that the effect is big or important."],
+      ["py", "import numpy as np\nfrom scipy import stats\nrng = np.random.default_rng(1)\n# A/B test: old vs new checkout page, 1 = purchased\nA = rng.binomial(1, 0.060, 4000)\nB = rng.binomial(1, 0.071, 4000)\nprint(\"Conversion A: %.2f%%  B: %.2f%%\" % (A.mean()*100, B.mean()*100))\nt, p = stats.ttest_ind(B, A)\nprint(\"p-value: %.4f\" % p)\ndiff = B.mean() - A.mean(); se = np.sqrt(A.var()/len(A) + B.var()/len(B))\nprint(\"95%% CI for the lift: %.2f%% to %.2f%%\" % ((diff-1.96*se)*100, (diff+1.96*se)*100))"],
+      ["table", ["Idea", "Plain meaning"], [["Null hypothesis", "\"No real difference\""], ["p-value", "Chance of data this extreme if the null were true"], ["Significance level (often 0.05)", "Your bar for \"unlikely to be luck\""], ["Confidence interval", "Plausible range for the true effect"], ["Power", "Chance of detecting a real effect; needs enough data"]]],
+      ["watch", "Correlation is not causation", "Ice-cream sales and drowning both rise in summer; heat causes both. Only a randomised experiment (like an A/B test) or careful causal analysis shows cause."],
+      ["quiz", "p = 0.03 means…", ["There is a 3% chance B is better", "If there were no real difference, data this extreme would appear about 3% of the time", "B is 3% better", "The test is 97% accurate"], 1, "It's about how surprising the data is under \"no difference\"."]
+    ]}
+  ]},
+  { id: "fd5", title: "Maths for machine learning", short: "Vectors, matrices and gradients, explained without fear",
+    outcomes: ["Compute dot products and cosine similarity.", "See a neural-network layer as matrix multiplication.", "Explain derivatives and gradients numerically."],
+    lessons: [
+    { id: "fd5-vectors", title: "Vectors, dot products and similarity", min: 13, blocks: [
+      ["layer", "Top view"],
+      ["top", "A vector is a list of numbers describing something. The dot product measures how much two vectors point the same way; cosine similarity turns that into a score from −1 to 1."],
+      ["widget", "vecdot"],
+      ["py", "import numpy as np\n# Customers as vectors: [snacks, staples, electronics] monthly spend (Rs '00)\nasha  = np.array([8, 20, 1])\nrohan = np.array([7, 18, 2])\nkaran = np.array([1, 3, 40])\ndef cos(a, b): return a @ b / (np.linalg.norm(a) * np.linalg.norm(b))\nprint(\"asha vs rohan: %.2f\" % cos(asha, rohan))\nprint(\"asha vs karan: %.2f\" % cos(asha, karan))"],
+      ["p", "This is exactly how embeddings are compared in search, recommendations and RAG."],
+      ["pyex", "Write cosine similarity", "Complete `cosine(a, b)` using the dot product and vector lengths (norms), without np.linalg.", "import numpy as np\ndef cosine(a, b):\n    # dot = sum of a*b ; length = sqrt(sum of squares)\n    return 0.0\nprint(cosine(np.array([1., 0.]), np.array([1., 1.])))", "import numpy as np\nassert abs(cosine(np.array([1.,0.]), np.array([1.,1.])) - 0.7071) < 1e-3, 'cos 45 degrees is 0.707'\nassert abs(cosine(np.array([1.,2.]), np.array([-2.,1.]))) < 1e-9, 'perpendicular vectors give 0'", "dot = (a*b).sum(); return dot / (np.sqrt((a*a).sum()) * np.sqrt((b*b).sum()))", "def cosine(a, b):\n    return (a*b).sum() / (np.sqrt((a*a).sum()) * np.sqrt((b*b).sum()))"]
+    ]},
+    { id: "fd5-matrix", title: "Matrices: a neural-network layer is one multiplication", min: 12, blocks: [
+      ["layer", "Top view"],
+      ["top", "A matrix is a grid of numbers. Multiplying it by a vector transforms the vector. One layer of a neural network is literally output = activation(W·x + b)."],
+      ["py", "import numpy as np\nx = np.array([0.8, 0.2, 0.5])                 # 3 input features\nW = np.array([[0.2, -0.5, 1.0],               # 2 neurons x 3 weights\n              [0.7,  0.1, -0.3]])\nb = np.array([0.1, -0.2])\nz = W @ x + b                                  # matrix-vector product\nprint(\"Before activation:\", z.round(3))\nprint(\"After ReLU:\", np.maximum(0, z).round(3))\nprint(\"Shapes: W\", W.shape, \"x\", x.shape, \"-> z\", z.shape)"],
+      ["tip", "The shape rule", "(m × n) @ (n,) gives (m,). The inner sizes must match. Most beginner deep-learning bugs are shape mismatches; printing `.shape` fixes half of them."]
+    ]},
+    { id: "fd5-calculus", title: "Derivatives and gradients", min: 14, blocks: [
+      ["layer", "Top view"],
+      ["top", "A derivative is the slope: how much the output changes for a tiny change in the input. A gradient is the list of slopes for every parameter, and it points uphill, so learning steps the opposite way."],
+      ["py", "def loss(w):                     # error of a model with one weight\n    return (w - 3) ** 2 + 1\n\ndef slope(f, w, h=1e-5):         # numerical derivative\n    return (f(w + h) - f(w - h)) / (2 * h)\n\nw = 0.0\nfor step in range(6):\n    g = slope(loss, w)\n    w = w - 0.3 * g               # gradient descent step\n    print(f\"step {step}: w={w:.3f}  loss={loss(w):.3f}  slope={g:.2f}\")"],
+      ["list", ["**Chain rule**: the slope of a chain of functions multiplies the slopes of each link. Backpropagation is the chain rule applied layer by layer.", "**Partial derivative**: the slope with respect to one parameter while others are frozen.", "You rarely compute these by hand: PyTorch does it automatically (autograd). Understanding them tells you why learning rates and scaling matter."]],
+      ["pyex", "Your own gradient descent", "Minimise `f(w) = (w + 2)**2`. Starting from `w = 5`, run 50 steps of gradient descent with learning rate 0.1 using the exact derivative `2*(w + 2)`. Leave the final value in `w`.", "w = 5.0\nfor _ in range(50):\n    pass  # update w here\nprint(w)", "assert abs(w + 2) < 1e-3, 'w should end very close to -2'", "Inside the loop: w = w - 0.1 * 2 * (w + 2)", "w = 5.0\nfor _ in range(50):\n    w = w - 0.1 * 2 * (w + 2)"]
+    ]}
+  ]},
+  { id: "fd6", title: "Exploratory data analysis", short: "Look at the data properly before any model",
+    outcomes: ["Follow a repeatable EDA checklist.", "Make the right chart for the question.", "Spot misleading charts."],
+    lessons: [
+    { id: "fd6-eda", title: "An EDA checklist with charts", min: 16, blocks: [
+      ["layer", "Top view"],
+      ["top", "Exploratory data analysis means getting to know a dataset: its size, quality, distributions and relationships, before trusting any model built on it."],
+      ["steps", ["Shape and types: rows, columns, what each column means.", "Missing values and duplicates.", "Distributions of each numeric column (histograms), counts of each category.", "Relationships: scatter plots and correlations with the target.", "Time patterns if there are dates.", "Write down 3 findings and 3 questions."]],
+      ["py", "import numpy as np, pandas as pd, matplotlib.pyplot as plt\nrng = np.random.default_rng(3)\nn = 300\nsqft = rng.normal(850, 220, n).clip(350, 1800)\nrent = 2 + 0.022 * sqft + rng.normal(0, 2.5, n)\ndf = pd.DataFrame({\"sqft\": sqft.round(), \"rent\": rent.round(1)})\nprint(df.describe().round(1))\nprint(\"Correlation:\", df.corr().loc[\"sqft\", \"rent\"].round(2))\n\nfig, ax = plt.subplots(1, 2, figsize=(9, 3.2))\nax[0].hist(df.rent, bins=25, color=\"#5B3FD9\"); ax[0].set_title(\"Rent distribution (Rs k)\")\nax[1].scatter(df.sqft, df.rent, s=8, alpha=.6, color=\"#0E8F7E\"); ax[1].set_title(\"Size vs rent\")\nax[1].set_xlabel(\"sq ft\"); plt.tight_layout(); plt.show()"],
+      ["table", ["Question", "Chart"], [["How is one number spread?", "Histogram / box plot"], ["Do two numbers move together?", "Scatter plot"], ["How does it change over time?", "Line chart"], ["Which category is biggest?", "Bar chart (sorted)"], ["Parts of a whole (few parts)", "Stacked bar; pie only for 2–4 parts"]]],
+      ["watch", "Charts that mislead", "A y-axis that doesn't start at zero exaggerates bar differences; dual axes can invent correlations; averages hide skew. Always check the axes."],
+      ["refs", [["Kaggle Learn: Pandas and Data Visualization", "https://www.kaggle.com/learn", "Free micro-courses with browser notebooks."], ["Seeing Theory", "https://seeing-theory.brown.edu", "Beautiful interactive visual introduction to probability and statistics."], ["Khan Academy: Statistics and probability", "https://www.khanacademy.org/math/statistics-probability", "Free, step-by-step lessons with practice."], ["3Blue1Brown: Essence of linear algebra", "https://www.3blue1brown.com/topics/linear-algebra", "The visual series on vectors, matrices and transformations."], ["SQLBolt", "https://sqlbolt.com", "Interactive SQL lessons in the browser."]]]
+    ]}
+  ]}
+]});
+
+window.LIBRARY.unshift(
+  ["fd", "Beginner", "Course", "Kaggle Learn: Python, Pandas, SQL", "https://www.kaggle.com/learn", "Short, free, hands-on micro-courses with browser notebooks."],
+  ["fd", "Beginner", "Docs", "The Python Tutorial", "https://docs.python.org/3/tutorial/", "The official, readable introduction to Python."],
+  ["fd", "Beginner", "Docs", "10 minutes to pandas", "https://pandas.pydata.org/docs/user_guide/10min.html", "The official quick tour of pandas."],
+  ["fd", "Beginner", "Interactive", "SQLBolt", "https://sqlbolt.com", "Learn SQL with interactive exercises."],
+  ["fd", "Beginner", "Interactive", "Seeing Theory", "https://seeing-theory.brown.edu", "Visual, interactive probability and statistics."],
+  ["fd", "Beginner", "Course", "Khan Academy: Statistics and probability", "https://www.khanacademy.org/math/statistics-probability", "Free lessons and practice."],
+  ["fd", "Beginner", "Videos", "3Blue1Brown: Essence of linear algebra", "https://www.3blue1brown.com/topics/linear-algebra", "Vectors and matrices, visually."]
+);
+window.GLOSSARY.unshift(
+  ["Variable", "A named box holding a value in a program."],
+  ["List", "Ordered collection of items in Python."],
+  ["Dictionary", "Collection of key → value pairs."],
+  ["Function", "Named, reusable block of code."],
+  ["Traceback", "Python's error report; read the last line first."],
+  ["NumPy array", "Fast grid of numbers supporting whole-array maths."],
+  ["Vectorisation", "Applying an operation to a whole array without a loop."],
+  ["DataFrame", "A pandas table with named columns."],
+  ["groupby", "Split a table into groups and summarise each."],
+  ["JOIN", "SQL operation combining tables on a shared key."],
+  ["Window function", "SQL calculation across related rows without collapsing them (RANK, running totals)."],
+  ["Median", "Middle value; robust to outliers."],
+  ["Standard deviation", "Typical distance of values from the mean."],
+  ["IQR", "Interquartile range: Q3 − Q1."],
+  ["Central limit theorem", "Averages of samples are roughly normal, whatever the original shape."],
+  ["Standard error", "How precise a sample average is: σ/√n."],
+  ["Bayes' rule", "Updating a probability with new evidence."],
+  ["p-value", "How surprising the data is if there were no real effect."],
+  ["Confidence interval", "Plausible range for a true value."],
+  ["A/B test", "Randomised experiment comparing two versions."],
+  ["Dot product", "Sum of element-wise products of two vectors."],
+  ["Cosine similarity", "How closely two vectors point the same way (−1 to 1)."],
+  ["Matrix multiplication", "Combining a matrix with a vector or matrix; the core of neural layers."],
+  ["Derivative", "Slope: rate of change of a function."],
+  ["Chain rule", "Slope of a chain = product of slopes; basis of backpropagation."],
+  ["EDA", "Exploratory data analysis: understanding data before modelling."]
+);
+window.EXAMS.fd = [
+  ["In Python, `prices[-1]` gives…", ["The first item", "The last item", "An error", "The length"], 1],
+  ["Which pandas code keeps rows where rent > 20?", ["df.rent > 20", "df[df.rent > 20]", "df.filter(20)", "df.where(rent=20)"], 1],
+  ["`df.groupby('state')['price'].mean()` returns…", ["One overall mean", "The mean price for each state", "The row count", "A sorted table"], 1],
+  ["Which SQL clause filters groups after aggregation?", ["WHERE", "HAVING", "ORDER BY", "LIMIT"], 1],
+  ["A LEFT JOIN keeps…", ["Only matching rows", "All rows from the left table", "All rows from the right table", "No rows"], 1],
+  ["For skewed salary data, the best measure of a typical value is…", ["Mean", "Median", "Maximum", "Range"], 1],
+  ["The central limit theorem says sample averages are…", ["Always uniform", "Roughly normal for large samples", "Always skewed", "Equal to the median"], 1],
+  ["A rare condition and a 95%-accurate test: most positive results are…", ["Always correct", "Often false positives", "Impossible", "Exactly 95% correct"], 1],
+  ["Cosine similarity of two vectors pointing the same way is…", ["0", "1", "−1", "Infinity"], 1],
+  ["Gradient descent moves parameters…", ["Up the gradient", "Opposite to the gradient", "Randomly", "Not at all"], 1]
+];
+window.GUIDE.paths.unshift(["Non-tech, starting from absolute zero", ["Foundations: all modules, running every cell and passing every exercise", "Machine Learning modules 1–3", "Continue with the full 16-week roadmap"]]);
+window.GUIDE.weeks = [
+  ["Weeks 1–3", "Foundations: Python, pandas, SQL, statistics, maths", ["fd1", "fd2", "fd3", "fd4", "fd5", "fd6"]],
+  ["Weeks 4–5", "ML foundations", ["ml1", "ml2", "ml3"]],
+  ["Weeks 6–7", "Classification, clustering, NLP", ["ml4", "ml5", "ml6"]],
+  ["Week 8", "Time series, RL, real world", ["ml7", "ml8", "ml9"]],
+  ["Weeks 9–10", "Deep learning", ["dl1", "dl2", "dl3", "dl4", "dl5", "dl6"]],
+  ["Weeks 11–12", "Generative AI", ["gen1", "gen2", "gen3", "gen4", "gen5", "gen6"]],
+  ["Week 13", "AI agents", ["ag1", "ag2", "ag3", "ag4"]],
+  ["Weeks 14–16", "Projects and portfolio", []]
+];
+
+</script>
+<script>
 (function () {
 "use strict";
 var CS = window.COURSES, GL = window.GLOSSARY, VIEW = document.getElementById("view"), TOP = document.getElementById("topTitle");
@@ -1292,8 +1523,8 @@ function courseCards() {
 function pageHome() {
   setNav("home");
   var all = prog(LESSONS), next = LESSONS.find(function (l) { return !done[l.id]; });
-  VIEW.innerHTML = '<div class="page"><section class="heroai">' + NET + '<h1>Learn AI by playing with it.</h1><p>Four connected courses, from your first machine-learning model to building AI agents. Plain English, Indian examples, live simulations you can touch, code you can run free in Google Colab, and the best open courses and videos linked at the right moment.</p><div class="row" style="margin-top:16px">' + (next ? '<a class="btn primary" href="#/l/' + next.id + '">' + (all[0] ? "Continue: " + esc(next.title) : "Start learning") + '</a>' : "") + '<a class="btn" href="#/play">Open the playground</a><a class="btn" href="#/guide">How to use this</a></div></section>' +
-    '<div class="statgrid"><div class="card stat"><b>' + all[0] + ' / ' + all[1] + '</b><span>lessons done</span></div><div class="card stat"><b>' + CS.length + '</b><span>courses</span></div><div class="card stat"><b>' + Object.keys(WIDGETS).length + '</b><span>live simulations</span></div><div class="card stat"><b>' + window.LIBRARY.length + '</b><span>free resources linked</span></div></div>' +
+  VIEW.innerHTML = '<div class="page"><section class="heroai">' + NET + '<h1>Learn AI by playing with it.</h1><p>Five connected courses, from your first line of Python to building AI agents. Plain English, Indian examples, live simulations you can touch, code you can run free in Google Colab, and the best open courses and videos linked at the right moment.</p><div class="row" style="margin-top:16px">' + (next ? '<a class="btn primary" href="#/l/' + next.id + '">' + (all[0] ? "Continue: " + esc(next.title) : "Start learning") + '</a>' : "") + '<a class="btn" href="#/play">Open the playground</a><a class="btn" href="#/guide">How to use this</a></div></section>' +
+    '<div class="statgrid"><div class="card stat"><b>' + all[0] + ' / ' + all[1] + '</b><span>lessons done</span></div><div class="card stat"><b>' + CS.length + '</b><span>courses</span></div><div class="card stat"><b>' + Object.keys(WIDGETS).length + '</b><span>live simulations</span></div><div class="card stat"><b>' + window.PY.exStats() + ' / ' + LESSONS.reduce(function (n, l) { return n + l.blocks.filter(function (b) { return b[0] === "pyex"; }).length; }, 0) + '</b><span>coding exercises solved</span></div></div>' +
     '<h2 style="margin-bottom:10px">Courses</h2>' + courseCards() +
     '<p class="small muted" style="margin-top:26px">Independent learning material. Videos and courses linked here belong to their creators (3Blue1Brown, Andrej Karpathy, Google, Hugging Face, Microsoft, fast.ai and others) and open on their own sites. Examples and people are fictional.</p></div>';
 }
@@ -1309,7 +1540,7 @@ function pageModule(id) {
   var m = MBY[id]; if (!m) return pageHome(); var c = CBY[m.course];
   setNav("courses", m.title);
   VIEW.innerHTML = '<div class="page narrow cc-' + c.id + '"><div class="crumbs"><a href="#/courses">Courses</a> › <a href="#/c/' + c.id + '">' + esc(c.title) + '</a> › Module ' + m.n + '</div><h1>' + esc(m.title) + '</h1><p class="lede" style="margin:4px 0 0">' + esc(m.short) + '</p><div class="card outcomes"><b>After this module you can</b><ul>' + m.outcomes.map(function (o) { return "<li>" + md(o) + "</li>"; }).join("") + '</ul></div><div class="lessons">' +
-    m.lessons.map(function (l) { return '<a class="card les ' + (done[l.id] ? "done" : "") + '" href="#/l/' + l.id + '"><span class="chk">' + (done[l.id] ? "✓" : "") + '</span><span class="t">' + esc(l.title) + '<small>' + l.min + ' min' + (l.blocks.some(function (b) { return b[0] === "widget"; }) ? " · simulation" : "") + (l.blocks.some(function (b) { return b[0] === "video"; }) ? " · video" : "") + (l.blocks.some(function (b) { return b[0] === "code"; }) ? " · code" : "") + '</small></span></a>'; }).join("") + '</div></div>';
+    m.lessons.map(function (l) { return '<a class="card les ' + (done[l.id] ? "done" : "") + '" href="#/l/' + l.id + '"><span class="chk">' + (done[l.id] ? "✓" : "") + '</span><span class="t">' + esc(l.title) + '<small>' + l.min + ' min' + (l.blocks.some(function (b) { return b[0] === "widget"; }) ? " · simulation" : "") + (l.blocks.some(function (b) { return b[0] === "video"; }) ? " · video" : "") + (l.blocks.some(function (b) { return b[0] === "code"; }) ? " · code" : "") + (l.blocks.some(function (b) { return b[0] === "py"; }) ? " · runnable" : "") + (l.blocks.some(function (b) { return b[0] === "pyex"; }) ? " · exercise" : "") + '</small></span></a>'; }).join("") + '</div></div>';
 }
 
 /* ---------- blocks ---------- */
@@ -1322,7 +1553,7 @@ function hl(code) {
     return out + (cm ? '<span class="cm">' + esc(cm) + '</span>' : "");
   }).join("\n");
 }
-var CODES = [];
+var CODES = [], CUR = "";
 function videoHTML(id, title, by, len) { return '<figure style="margin:0"><div class="video" data-yt="' + id + '" role="button" tabindex="0" aria-label="Play video: ' + esc(title) + '"><img loading="lazy" src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt=""><div class="play"><span></span></div><div class="vt">' + esc(title) + '<small>' + esc(by) + (len ? " · " + esc(len) : "") + '</small></div></div><figcaption class="small muted" style="margin-top:6px">Video by ' + esc(by) + ' · <a href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener">open on YouTube ↗</a></figcaption></figure>'; }
 function refCard(r) { return '<a class="card refcard" href="' + esc(r[1]) + '" target="_blank" rel="noopener"><span class="ri" aria-hidden="true">↗</span><span><b>' + esc(r[0]) + '</b><small>' + esc(r[2] || "") + '</small><small class="url">' + esc(r[1].replace(/^https?:\/\//, "")) + '</small></span></a>'; }
 function block(b, i, toc) {
@@ -1340,6 +1571,9 @@ function block(b, i, toc) {
   if (t === "code") { CODES.push(b[2]); return '<div class="codebox"><div class="ch"><span>' + esc(b[1]) + ' · run free in Google Colab</span><button type="button" data-code="' + (CODES.length - 1) + '">Copy</button></div><pre>' + hl(b[2]) + '</pre></div>'; }
   if (t === "refs") return '<div class="refs">' + b[1].map(refCard).join("") + '</div>';
   if (t === "quiz") return quizHTML(b[1], b[2], b[3], b[4]);
+  if (t === "py") return window.PY.cellHTML(b[1], i);
+  if (t === "pyex") return window.PY.exHTML(b, i, CUR);
+  if (t === "runinfo") return '<div class="callout plain"><b class="h">In plain words: Code you can run right here</b><p>The grey boxes are real Python running inside your browser. Edit the code and press <b>▶ Run</b> (or Ctrl+Enter). The first run downloads Python once (about 20–40 seconds, needs internet); after that it is quick. Cells on a page share variables, like a notebook, and earlier cells run automatically when needed.</p></div>';
   return "";
 }
 function quizHTML(q, opts, right, why) { return '<div class="card quiz" data-right="' + right + '"><div class="q">Check: ' + md(q) + '</div><div class="opts">' + opts.map(function (o, k) { return '<button type="button" class="opt" data-k="' + k + '">' + md(o) + '</button>'; }).join("") + '</div><div class="why hide" data-why="' + esc(why || "") + '"></div></div>'; }
@@ -1354,7 +1588,7 @@ function wire(root) {
 function pageLesson(id) {
   var l = LBY[id]; if (!l) return pageHome();
   var m = MBY[l.module], c = CBY[l.course], idx = LESSONS.indexOf(l), prev = LESSONS[idx - 1], next = LESSONS[idx + 1];
-  setNav("courses", l.title); CODES = [];
+  setNav("courses", l.title); CODES = []; CUR = l.id;
   var toc = [], body = l.blocks.map(function (b, i) { return block(b, i, toc); }).join("");
   var ex = (window.EXTRA_REFS || {})[l.id];
   if (ex) { toc.push(["deeper", "Go deeper"]); body += '<div class="layer" id="deeper"><i></i>Go deeper (free)</div><div class="refs">' + ex.map(refCard).join("") + '</div>'; }
@@ -1365,13 +1599,14 @@ function pageLesson(id) {
   $("#doneBtn").addEventListener("click", function () { if (done[l.id]) delete done[l.id]; else done[l.id] = 1; save("done", done); if (done[l.id] && next) { toast("Lesson done"); location.hash = "#/l/" + next.id; } else pageLesson(id); });
   $$(".toc a").forEach(function (a) { a.addEventListener("click", function () { var t = document.getElementById(a.dataset.to); if (t) t.scrollIntoView({ behavior: "smooth" }); }); });
   wire(VIEW);
+  window.PY.wire(VIEW, l.blocks, l.id);
 }
 
 /* ---------- playground, library, glossary, exam, guide, search ---------- */
 var WIDGETS = window.WIDGETS = window.WIDGETS || {};
 function pagePlay() {
   setNav("play", "Playground");
-  var groups = [["ml", ["linreg", "gd", "poly", "knn", "confusion", "kmeans", "sentiment", "timeseries", "qlearn"]], ["dl", ["neuron", "nnet", "conv", "embed"]], ["gen", ["sampling", "prompt", "rag"]], ["ag", ["agent"]]];
+  var groups = [["fd", ["clt", "bayes", "vecdot"]], ["ml", ["linreg", "gd", "poly", "knn", "confusion", "kmeans", "sentiment", "timeseries", "qlearn"]], ["dl", ["neuron", "nnet", "conv", "embed"]], ["gen", ["sampling", "prompt", "rag"]], ["ag", ["agent"]]];
   var f = load("playf", "all");
   VIEW.innerHTML = '<div class="page narrow"><h1>Playground</h1><p class="lede" style="margin:6px 0 14px">Every simulation from the courses in one place. Change one thing at a time and predict the result before you look.</p><div class="toggle-seg">' + [["all", "All"]].concat(CS.map(function (c) { return [c.id, c.icon + " " + c.title]; })).map(function (o) { return '<button type="button" data-f="' + o[0] + '" aria-pressed="' + (f === o[0]) + '">' + esc(o[1]) + '</button>'; }).join("") + '</div><div class="grid">' +
     groups.filter(function (g) { return f === "all" || g[0] === f; }).map(function (g) { return g[1].map(function (w) { return '<div class="card widget cc-' + g[0] + '" data-widget="' + w + '"></div>'; }).join(""); }).join("") + '</div></div>';
@@ -1419,10 +1654,10 @@ function pageExam(cid) {
 function pageGuide() {
   setNav("home", "How to use this");
   var G = window.GUIDE;
-  VIEW.innerHTML = '<div class="page narrow"><h1>How to use AI Academy</h1><p class="lede" style="margin:6px 0 18px">About 45 minutes a day for 12 weeks takes you from zero to building and explaining real AI projects.</p>' +
+  VIEW.innerHTML = '<div class="page narrow"><h1>How to use AI Academy</h1><p class="lede" style="margin:6px 0 18px">About 45 minutes a day for 16 weeks takes you from zero to building and explaining real AI projects.</p>' +
     '<h2 style="margin-bottom:10px">Pick your path</h2><div class="grid">' + G.paths.map(function (p) { return '<div class="card pad"><b>' + esc(p[0]) + '</b><ol style="margin:6px 0 0;padding-left:20px">' + p[1].map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ol></div>'; }).join("") + '</div>' +
     '<h2 style="margin:24px 0 10px">The routine for every lesson</h2><ol class="steps card pad" style="margin:0">' + G.routine.map(function (r) { return '<li><b>' + esc(r[0]) + '.</b> ' + esc(r[1]) + '</li>'; }).join("") + '</ol>' +
-    '<h2 style="margin:24px 0 10px">12-week roadmap</h2><div class="roadmap">' + G.weeks.map(function (w, i) { var mods = w[2].map(function (id) { return MBY[id]; }).filter(Boolean); var cc = mods[0] ? mods[0].course : "gen"; return '<div class="rm cc-' + cc + '"><span class="n">' + (i + 1) + '</span><div class="card pad"><b>' + esc(w[0]) + ': ' + esc(w[1]) + '</b><div class="chips" style="margin-top:8px">' + (mods.length ? mods.map(function (m) { var p = prog(m.lessons); return '<a class="chip" style="text-decoration:none;color:inherit" href="#/m/' + m.id + '">' + esc(m.title) + ' <span class="muted">' + p[0] + '/' + p[1] + '</span></a>'; }).join("") : '<span class="small muted">Build 3 projects from ML module 9 and the agent project; publish them on GitHub with clear READMEs.</span>') + '</div></div></div>'; }).join("") + '</div>' +
+    '<h2 style="margin:24px 0 10px">16-week roadmap</h2><div class="roadmap">' + G.weeks.map(function (w, i) { var mods = w[2].map(function (id) { return MBY[id]; }).filter(Boolean); var cc = mods[0] ? mods[0].course : "gen"; return '<div class="rm cc-' + cc + '"><span class="n">' + (i + 1) + '</span><div class="card pad"><b>' + esc(w[0]) + ': ' + esc(w[1]) + '</b><div class="chips" style="margin-top:8px">' + (mods.length ? mods.map(function (m) { var p = prog(m.lessons); return '<a class="chip" style="text-decoration:none;color:inherit" href="#/m/' + m.id + '">' + esc(m.title) + ' <span class="muted">' + p[0] + '/' + p[1] + '</span></a>'; }).join("") : '<span class="small muted">Build 3 projects from ML module 9 and the agent project; publish them on GitHub with clear READMEs.</span>') + '</div></div></div>'; }).join("") + '</div>' +
     '<h2 style="margin:24px 0 10px">Set up in 2 minutes</h2><div class="card pad"><ol style="margin:0;padding-left:20px"><li>Open <b>colab.research.google.com</b> and sign in with a Google account.</li><li>Click <b>New notebook</b>.</li><li>Paste any code block from a lesson (use its Copy button) and press ▶.</li><li>For the deep-learning lessons: <b>Runtime → Change runtime type → GPU</b> (free).</li></ol></div>' +
     '<h2 style="margin:24px 0 10px">Roles you can aim for</h2><div class="tablewrap"><table><thead><tr><th>Role</th><th>What it involves</th></tr></thead><tbody>' + G.roles.map(function (r) { return '<tr><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td></tr>'; }).join("") + '</tbody></table></div><p class="small muted" style="margin-top:8px">Your projects are your proof: keep them real, documented and something you can explain line by line.</p></div>';
 }
@@ -1875,6 +2110,170 @@ W.agent = function (el) {
   $("#nx", c).addEventListener("click", function () { i++; draw(); });
   $("#rs", c).addEventListener("click", function () { i = 0; approved = null; draw(); });
   $("#f", c).addEventListener("change", function (e) { fail = e.target.checked; i = 0; approved = null; draw(); });
+  draw();
+};
+})();
+
+</script>
+<script>
+(function () {
+"use strict";
+var A = window.AIA, esc = A.esc, $ = A.$, $$ = A.$$;
+var URL_BASE = window.PYODIDE_URL || "https://cdn.jsdelivr.net/pyodide/v0.26.3/full/";
+var boot = null;
+function loadPy(status) {
+  if (boot) return boot;
+  boot = new Promise(function (res, rej) {
+    if (status) status("Downloading Python for your browser (first time only, about 20–40 seconds)…");
+    var s = document.createElement("script"); s.src = URL_BASE + "pyodide.js";
+    s.onload = function () { window.loadPyodide({ indexURL: URL_BASE }).then(function (py) { py.runPython("import warnings\nwarnings.filterwarnings('ignore')"); res(py); }, rej); };
+    s.onerror = function () { rej(new Error("Couldn't download Python. Check your internet connection.")); };
+    document.head.appendChild(s);
+  }).catch(function (e) { boot = null; throw e; });
+  return boot;
+}
+var PLOT_GRAB = "import io as _io, base64 as _b64\nimport matplotlib.pyplot as _plt\n_imgs = []\nfor _n in _plt.get_fignums():\n    _buf = _io.BytesIO(); _plt.figure(_n).savefig(_buf, format='png', dpi=96, bbox_inches='tight'); _imgs.append(_b64.b64encode(_buf.getvalue()).decode())\n_plt.close('all')";
+var queue = Promise.resolve();
+function exec(code, onStatus) {
+  var job = queue.then(function () {
+    return loadPy(onStatus).then(function (py) {
+      var out = [], plots = [];
+      py.setStdout({ batched: function (t) { out.push(t); } }); py.setStderr({ batched: function (t) { out.push(t); } });
+      if (onStatus) onStatus("Loading libraries…");
+      return py.loadPackagesFromImports(code).then(function () {
+        var usesPlt = /matplotlib|plt\./.test(code);
+        if (usesPlt) py.runPython("import matplotlib\nmatplotlib.use('AGG')");
+        if (onStatus) onStatus("Running…");
+        return py.runPythonAsync(code).then(function () {
+          if (usesPlt) { py.runPython(PLOT_GRAB); var g = py.globals.get("_imgs"); plots = g.toJs(); g.destroy(); }
+          return { ok: true, out: out.join("\n"), plots: plots };
+        }, function (err) {
+          var msg = String(err && err.message || err).split("\n"), i = msg.findIndex(function (l) { return /File "<exec>"/.test(l); });
+          var tb = (i >= 0 ? msg.slice(i) : msg.slice(-6)).filter(function (l) { return l.trim(); }).join("\n");
+          return { ok: false, out: out.join("\n"), err: tb, last: msg.filter(function (l) { return l.trim(); }).pop() || "Error", plots: [] };
+        });
+      });
+    });
+  });
+  queue = job.catch(function () {});
+  return job;
+}
+function autosize(t) { t.style.height = "auto"; t.style.height = Math.min(520, t.scrollHeight + 4) + "px"; }
+var EXDONE = A.load("ex", {});
+
+window.PY = {
+  cellHTML: function (code, idx) {
+    return '<div class="pycell" data-py="' + idx + '"><div class="ch"><span>Python · runs in your browser</span><span><button type="button" data-act="reset">Reset</button> <button type="button" data-act="run" class="run">▶ Run</button></span></div><textarea spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code">' + esc(code) + '</textarea><div class="pyout hide"></div></div>';
+  },
+  exHTML: function (b, idx, lessonId) {
+    var key = lessonId + ":" + b[1], ok = EXDONE[key];
+    return '<div class="card pyex" data-ex="' + idx + '" data-key="' + esc(key) + '"><div class="row" style="justify-content:space-between"><b>🧩 Exercise: ' + esc(b[1]) + '</b>' + (ok ? '<span class="tag green">✓ solved</span>' : '<span class="tag">not solved yet</span>') + '</div><p style="margin:8px 0 10px">' + A.md(b[2]) + '</p>' +
+      window.PY.cellHTML(b[3], "x" + idx).replace('data-act="run" class="run">▶ Run', 'data-act="check" class="run">✓ Check') +
+      '<div class="row" style="margin-top:8px"><button class="btn sm" type="button" data-act="hint">Hint</button><button class="btn sm" type="button" data-act="sol">Show solution</button></div><div class="exhint hide"></div></div>';
+  },
+  wire: function (root, blocks, lessonId) {
+    var cells = [], ran = {};
+    $$(".pycell", root).forEach(function (c) { if (!c.closest(".pyex")) cells.push(c); });
+    function show(cell, r, extra) {
+      var o = $(".pyout", cell); o.classList.remove("hide");
+      var html = "";
+      if (r.out) html += '<pre>' + esc(r.out) + '</pre>';
+      (r.plots || []).forEach(function (p) { html += '<img alt="Chart output" src="data:image/png;base64,' + p + '">'; });
+      if (!r.ok) html += '<pre class="err">' + esc(r.err) + '</pre>';
+      if (extra) html += extra;
+      o.innerHTML = html || '<pre class="muted">(ran, no output)</pre>';
+    }
+    function status(cell) { return function (t) { var o = $(".pyout", cell); o.classList.remove("hide"); o.innerHTML = '<pre class="muted">' + esc(t) + '</pre>'; }; }
+    function runBefore(cell) {
+      var i = cells.indexOf(cell), list = cells.slice(0, i < 0 ? cells.length : i).filter(function (c) { return !ran[cells.indexOf(c)]; });
+      return list.reduce(function (p, c) { return p.then(function () { return exec($("textarea", c).value, status(c)).then(function (r) { ran[cells.indexOf(c)] = 1; show(c, r); }); }); }, Promise.resolve());
+    }
+    $$("textarea", root).forEach(function (t) { if (!t.closest(".pycell")) return; autosize(t); t.dataset.orig = t.value; t.addEventListener("input", function () { autosize(t); }); t.addEventListener("keydown", function (e) { if (e.key === "Tab") { e.preventDefault(); var s = t.selectionStart; t.value = t.value.slice(0, s) + "    " + t.value.slice(t.selectionEnd); t.selectionStart = t.selectionEnd = s + 4; } if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); var b = t.closest(".pycell").querySelector(".run"); if (b) b.click(); } }); });
+    cells.forEach(function (cell, i) {
+      $('[data-act="run"]', cell).addEventListener("click", function () { var btn = this; btn.disabled = true; runBefore(cell).then(function () { return exec($("textarea", cell).value, status(cell)); }).then(function (r) { ran[i] = 1; show(cell, r); }).catch(function (e) { show(cell, { ok: false, err: e.message }); }).then(function () { btn.disabled = false; }); });
+      $('[data-act="reset"]', cell).addEventListener("click", function () { var t = $("textarea", cell); t.value = t.dataset.orig; autosize(t); $(".pyout", cell).classList.add("hide"); });
+    });
+    $$(".pyex", root).forEach(function (ex) {
+      var b = blocks[+ex.dataset.ex], cell = $(".pycell", ex), t = $("textarea", cell);
+      $('[data-act="check"]', ex).addEventListener("click", function () {
+        var btn = this; btn.disabled = true;
+        runBefore(ex).then(function () { return exec(t.value + "\n\n" + b[4], status(cell)); }).then(function (r) {
+          if (r.ok) { EXDONE[ex.dataset.key] = 1; A.save("ex", EXDONE); var tag = $(".tag", ex); tag.className = "tag green"; tag.textContent = "✓ solved"; show(cell, r, '<div class="exok">✓ Correct! Well done.</div>'); }
+          else { var m = /AssertionError:?\s*(.*)/.exec(r.last || ""); show(cell, { ok: true, out: r.out, plots: [] }, '<div class="exbad">✗ Not yet: ' + esc(m ? (m[1] || "a check failed") : r.last) + '</div>' + (m ? "" : '<pre class="err">' + esc(r.err) + '</pre>')); }
+        }).catch(function (e) { show(cell, { ok: false, err: e.message }); }).then(function () { btn.disabled = false; });
+      });
+      $('[data-act="reset"]', ex).addEventListener("click", function () { t.value = t.dataset.orig; autosize(t); $(".pyout", cell).classList.add("hide"); });
+      $('[data-act="hint"]', ex).addEventListener("click", function () { var h = $(".exhint", ex); h.classList.remove("hide"); h.innerHTML = '<div class="callout tip" style="margin-top:8px"><b class="h">Hint</b><p><code>' + esc(b[5]) + '</code></p></div>'; });
+      $('[data-act="sol"]', ex).addEventListener("click", function () { var h = $(".exhint", ex); h.classList.remove("hide"); h.innerHTML = '<div class="codebox" style="margin-top:8px"><div class="ch"><span>One possible solution: try it yourself first</span></div><pre>' + esc(b[6]) + '</pre></div>'; });
+    });
+  },
+  exStats: function () { return Object.keys(EXDONE).length; }
+};
+
+/* ---------- Foundations widgets ---------- */
+var W = window.WIDGETS;
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || "#888"; }
+function canvas(holder, h) { var cv = document.createElement("canvas"); cv.className = "plot"; holder.appendChild(cv); var w = Math.max(260, Math.floor(cv.getBoundingClientRect().width || holder.clientWidth || 320)), d = window.devicePixelRatio || 1; cv.width = w * d; cv.height = h * d; cv.style.height = h + "px"; var g = cv.getContext("2d"); g.setTransform(d, 0, 0, d, 0, 0); return { cv: cv, g: g, W: w, H: h }; }
+function ctrl(el, html) { var d = document.createElement("div"); d.className = "ctrl"; d.innerHTML = html; el.appendChild(d); return d; }
+function stats(el) { var d = document.createElement("div"); d.className = "stat2"; el.appendChild(d); return d; }
+
+W.clt = function (el) {
+  el.innerHTML = '<h4>The central limit theorem, live</h4><p class="small muted" style="margin:-4px 0 10px">Top: the population. Bottom: averages of 2,000 random samples of size n. Even skewed data gives bell-shaped averages as n grows.</p>';
+  var shape = "skewed", n = 1;
+  var draw1 = { uniform: function () { return Math.random() * 100; }, skewed: function () { return -Math.log(1 - Math.random()) * 20; }, bimodal: function () { return Math.random() < 0.5 ? 25 + (Math.random() + Math.random() - 1) * 15 : 75 + (Math.random() + Math.random() - 1) * 15; } };
+  var P1 = canvas(el, 110), P2 = canvas(el, 150);
+  var c = ctrl(el, '<label>Population <select id="sh"><option value="skewed">Skewed (delivery times)</option><option value="uniform">Uniform</option><option value="bimodal">Two peaks</option></select></label><label>Sample size n <input type="range" id="n" min="1" max="50" step="1" value="1"> <b id="nv">1</b></label><button class="btn sm" id="re" type="button">Resample</button>');
+  var s = stats(el);
+  function hist(P, arr, lo, hi, col) { var B = 40, bins = new Array(B).fill(0); arr.forEach(function (v) { var k = Math.floor((v - lo) / (hi - lo) * B); if (k >= 0 && k < B) bins[k]++; }); var mx = Math.max.apply(null, bins), bw = (P.W - 10) / B; P.g.clearRect(0, 0, P.W, P.H); bins.forEach(function (b, i) { var h = b / mx * (P.H - 12); P.g.fillStyle = col; P.g.globalAlpha = .8; P.g.fillRect(5 + i * bw, P.H - 4 - h, bw - 1, h); }); P.g.globalAlpha = 1; }
+  function run() {
+    var f = draw1[shape], pop = [], means = [];
+    for (var i = 0; i < 6000; i++) pop.push(f());
+    for (i = 0; i < 2000; i++) { var sm = 0; for (var j = 0; j < n; j++) sm += f(); means.push(sm / n); }
+    hist(P1, pop, 0, 100, css("--ink-3")); hist(P2, means, 0, 100, css("--c-gen"));
+    var m = means.reduce(function (a, b) { return a + b; }, 0) / means.length, sd = Math.sqrt(means.reduce(function (a, b) { return a + (b - m) * (b - m); }, 0) / means.length);
+    s.innerHTML = '<span>Mean of averages: <b>' + m.toFixed(1) + '</b></span><span>Spread of averages (standard error): <b>' + sd.toFixed(2) + '</b></span><span>' + (n >= 30 ? "<b>Bell-shaped ✓</b>" : n === 1 ? "n = 1 just copies the population" : "Getting more bell-shaped…") + '</span>';
+  }
+  $("#sh", c).addEventListener("change", function (e) { shape = e.target.value; run(); });
+  $("#n", c).addEventListener("input", function (e) { n = +e.target.value; $("#nv", c).textContent = n; run(); });
+  $("#re", c).addEventListener("click", run);
+  run();
+};
+
+W.bayes = function (el) {
+  el.innerHTML = '<h4>Bayes in 1,000 people</h4><p class="small muted" style="margin:-4px 0 10px">Each dot is a person tested. Change how rare the condition is and how good the test is, then look at who tests positive.</p>';
+  var st = { prev: 2, sens: 95, fpr: 5 };
+  var grid = document.createElement("div"); grid.style.cssText = "display:grid;grid-template-columns:repeat(40,1fr);gap:2px;max-width:520px"; el.appendChild(grid);
+  var c = ctrl(el, '<label>Has the condition <input type="range" id="p" min="0.1" max="20" step="0.1" value="2"> <b id="pv">2%</b></label><label>Catches true cases <input type="range" id="s" min="50" max="100" step="1" value="95"> <b id="sv">95%</b></label><label>False alarms <input type="range" id="f" min="0" max="20" step="0.5" value="5"> <b id="fv">5%</b></label>');
+  var s = stats(el);
+  function draw() {
+    var N = 1000, sick = Math.round(N * st.prev / 100), tp = Math.round(sick * st.sens / 100), fn = sick - tp, fp = Math.round((N - sick) * st.fpr / 100), tn = N - sick - fp;
+    var cells = [], k;
+    for (k = 0; k < tp; k++) cells.push("var(--c-dl)"); for (k = 0; k < fn; k++) cells.push("color-mix(in srgb, var(--c-dl) 35%, transparent)"); for (k = 0; k < fp; k++) cells.push("var(--c-gen)"); for (k = 0; k < tn; k++) cells.push("var(--line)");
+    grid.innerHTML = cells.map(function (col) { return '<span style="aspect-ratio:1;border-radius:50%;background:' + col + '"></span>'; }).join("");
+    var ppv = tp + fp ? tp / (tp + fp) : 0;
+    s.innerHTML = '<span><span style="color:var(--c-dl)">●</span> true positive <b>' + tp + '</b></span><span><span style="color:var(--c-gen)">●</span> false alarm <b>' + fp + '</b></span><span>missed <b>' + fn + '</b></span><span>If you test positive, chance it\'s real: <b>' + (ppv * 100).toFixed(1) + '%</b></span>';
+  }
+  [["p", "prev", "pv"], ["s", "sens", "sv"], ["f", "fpr", "fv"]].forEach(function (x) { $("#" + x[0], c).addEventListener("input", function (e) { st[x[1]] = +e.target.value; $("#" + x[2], c).textContent = st[x[1]] + "%"; draw(); }); });
+  draw();
+};
+
+W.vecdot = function (el) {
+  el.innerHTML = '<h4>Drag two vectors</h4><p class="small muted" style="margin:-4px 0 10px">Drag the arrow tips. Watch the dot product and cosine similarity: 1 = same direction, 0 = unrelated (perpendicular), −1 = opposite.</p>';
+  var P = canvas(el, 260), g = P.g, a = [3, 1], b = [1, 3], drag = null, sc = Math.min(P.W, P.H) / 10, O = [P.W / 2, P.H / 2];
+  var s = stats(el);
+  function px(v) { return [O[0] + v[0] * sc, O[1] - v[1] * sc]; }
+  function arrow(v, col, lab) { var p = px(v); g.strokeStyle = col; g.fillStyle = col; g.lineWidth = 3; g.beginPath(); g.moveTo(O[0], O[1]); g.lineTo(p[0], p[1]); g.stroke(); g.beginPath(); g.arc(p[0], p[1], 8, 0, 7); g.fill(); g.font = "700 13px sans-serif"; g.fillText(lab + " (" + v[0].toFixed(1) + ", " + v[1].toFixed(1) + ")", p[0] + 10, p[1] - 8); g.lineWidth = 1; }
+  function draw() {
+    g.clearRect(0, 0, P.W, P.H); g.strokeStyle = css("--line"); g.beginPath(); g.moveTo(0, O[1]); g.lineTo(P.W, O[1]); g.moveTo(O[0], 0); g.lineTo(O[0], P.H); g.stroke();
+    arrow(a, css("--c-ml"), "a"); arrow(b, css("--c-dl"), "b");
+    var dot = a[0] * b[0] + a[1] * b[1], na = Math.hypot(a[0], a[1]), nb = Math.hypot(b[0], b[1]), cos = na && nb ? dot / (na * nb) : 0;
+    s.innerHTML = '<span>a · b = ' + a[0].toFixed(1) + '×' + b[0].toFixed(1) + ' + ' + a[1].toFixed(1) + '×' + b[1].toFixed(1) + ' = <b>' + dot.toFixed(2) + '</b></span><span>|a| = <b>' + na.toFixed(2) + '</b>, |b| = <b>' + nb.toFixed(2) + '</b></span><span>cosine = <b>' + cos.toFixed(3) + '</b> (angle ' + (Math.acos(Math.max(-1, Math.min(1, cos))) * 180 / Math.PI).toFixed(0) + '°)</span>';
+  }
+  function at(e) { var r = P.cv.getBoundingClientRect(), t = e.touches ? e.touches[0] : e; return [(t.clientX - r.left - O[0]) / sc, -(t.clientY - r.top - O[1]) / sc]; }
+  function down(e) { var q = at(e); drag = Math.hypot(q[0] - a[0], q[1] - a[1]) < Math.hypot(q[0] - b[0], q[1] - b[1]) ? a : b; move(e); }
+  function move(e) { if (!drag) return; e.preventDefault(); var q = at(e); drag[0] = Math.max(-4.8, Math.min(4.8, Math.round(q[0] * 2) / 2)); drag[1] = Math.max(-4.8, Math.min(4.8, Math.round(q[1] * 2) / 2)); draw(); }
+  P.cv.addEventListener("mousedown", down); P.cv.addEventListener("mousemove", move); window.addEventListener("mouseup", function () { drag = null; });
+  P.cv.addEventListener("touchstart", down, { passive: false }); P.cv.addEventListener("touchmove", move, { passive: false }); P.cv.addEventListener("touchend", function () { drag = null; });
   draw();
 };
 })();

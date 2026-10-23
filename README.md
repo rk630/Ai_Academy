@@ -1,13 +1,14 @@
 # AI Academy
 
-Learn **machine learning, deep learning, generative AI and AI agents** from zero: plain-English lessons with Indian examples, **17 live simulations**, code you can run free in Google Colab, and the best free courses and videos linked at the right moment.
+Learn **machine learning, deep learning, generative AI and AI agents** from zero: plain-English lessons with Indian examples, **20 live simulations**, **Python that runs inside the lessons** with graded exercises, code you can run free in Google Colab, and the best free courses and videos linked at the right moment.
 
-Open it: **https://YOUR-USERNAME.github.io/ai-academy/**
+Open it: **https://rk630.github.io/Ai_Academy/**
 
 ## Courses
 
 | Course | Modules | Highlights |
 |---|---|---|
+| Foundations | 6 | Python, NumPy, pandas, SQL, statistics, probability, maths for ML, EDA, all runnable in the browser with graded exercises |
 | Machine Learning | 9 | Data, regression, classification, clustering, NLP, time series, reinforcement learning, deployment |
 | Deep Learning & AI | 6 | Neurons, training a network live, computer vision, embeddings, transformers, responsible AI |
 | Generative AI & LLMs | 6 | How LLMs work, prompting, RAG, building apps, evaluation and safety |
